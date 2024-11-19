@@ -10,17 +10,17 @@ import java.io.*;
 import java.util.List;
 
 public class ShapeTable extends JDialog {
-    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Назва", "x1", "y1", "x2", "y2"}, 0);
+    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2"}, 0);
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
     public ShapeTable(Frame owner, MainEditor editor) {
-        super(owner, "Список об'єктів", false);
+        super(owner, "Objects list", false);
         setLayout(new BorderLayout());
 
         JPanel panel = new JPanel(new java.awt.GridLayout(1, 2));
 
-        JButton jbtSave = new JButton("Зберегти");
-        JButton jbtLoad = new JButton("Завантажити");
+        JButton jbtSave = new JButton("Save");
+        JButton jbtLoad = new JButton("Load");
 
         panel.add(jbtSave);
         panel.add(jbtLoad);
@@ -36,7 +36,7 @@ public class ShapeTable extends JDialog {
         });
 
         JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem deleteMenuItem = new JMenuItem("Видалити");
+        JMenuItem deleteMenuItem = new JMenuItem("Delete");
 
         deleteMenuItem.addActionListener(e -> {
             int row = myJTable.getSelectedRow();
@@ -142,7 +142,7 @@ public class ShapeTable extends JDialog {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String headerLine = reader.readLine();
             if (headerLine == null) {
-                throw new IOException("Файл порожній або пошкоджений");
+                throw new IOException("The file is empty or injured");
             }
 
             tableModel.setRowCount(0);

@@ -16,11 +16,24 @@ public class ShapeEditorFrame extends JFrame {
         editor = MainEditor.getInstance(this);
         ShapeToolBar shapeToolBar = new ShapeToolBar(editor);
 
-        setTitle("Редактор фігур");
-        setSize(800, 600);
+        setTitle("sHapE modeLer tooL");
+
+        editor.setPreferredSize(new Dimension(2000, 2000));
+
+        JScrollPane scrollPane = new JScrollPane(editor);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(800, 600));
+
         setJMenuBar(createMenuBar());
-        add(editor, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(shapeToolBar.getPanel(), BorderLayout.NORTH);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
         initMouseListeners();
         initKeyBindings();
@@ -28,31 +41,29 @@ public class ShapeEditorFrame extends JFrame {
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu shapeMenu = new JMenu("Об'єкти");
-        JMenu fileMenu = new JMenu("Файл");
+        JMenu shapeMenu = new JMenu("Objects");
+        JMenu fileMenu = new JMenu("File");
 
-        JMenuItem showTableItem = new JMenuItem("Показати таблицю");
+        JMenuItem showTableItem = new JMenuItem("Show table");
         showTableItem.addActionListener(e -> editor.showTable());
-        fileMenu.add(showTableItem);
+        shapeMenu.add(showTableItem);
 
-        JMenuItem saveTable = new JMenuItem("Зберегти як");
+        JMenuItem saveTable = new JMenuItem("Save as");
         saveTable.addActionListener(e -> editor.saveTable(fileChooser));
         fileMenu.add(saveTable);
 
-        JMenuItem loadTable = new JMenuItem("Завантажити з");
-        loadTable.addActionListener(e -> {
-            editor.loadAndRepaint(editor, fileChooser);
-        });
+        JMenuItem loadTable = new JMenuItem("Load from");
+        loadTable.addActionListener(e -> editor.loadAndRepaint(editor, fileChooser));
         fileMenu.add(loadTable);
 
-        JMenuItem deleteAllShapes = new JMenuItem("Видалити усі елементи");
+        JMenuItem deleteAllShapes = new JMenuItem("Delete all shapes");
         deleteAllShapes.addActionListener(e -> {
             editor.getCurrentShapeEditor().deleteShapes();
             editor.repaintShapes();
         });
-        fileMenu.add(deleteAllShapes);
+        shapeMenu.add(deleteAllShapes);
 
-        JMenuItem saveSceneItem = new JMenuItem("Зберегти сцену як PNG");
+        JMenuItem saveSceneItem = new JMenuItem("Save as picture");
         saveSceneItem.addActionListener(e -> saveSceneAsImage());
         fileMenu.add(saveSceneItem);
 
@@ -80,7 +91,7 @@ public class ShapeEditorFrame extends JFrame {
                 javax.imageio.ImageIO.write(image, "png", file);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Помилка при збереженні сцени");
+                JOptionPane.showMessageDialog(this, "Error during saving scene");
             }
         }
     }

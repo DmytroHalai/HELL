@@ -113,9 +113,9 @@ public class ShapeEditor {
             shape.set(x1, y1, x2, y2);
             shapes.add(shape);
         } catch (NumberFormatException e) {
-            System.err.println("Помилка конвертації координат: " + e.getMessage());
+            System.err.println("Error during conversion of coordinates: " + e.getMessage());
         } catch (NullPointerException e) {
-            System.err.println("Некоректний рядок у таблиці: " + e.getMessage());
+            System.err.println("Uncorrected row in a table: " + e.getMessage());
         }
     }
 

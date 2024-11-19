@@ -9,6 +9,9 @@ import java.awt.*;
 public class MainEditor extends JPanel {
     private final transient ShapeEditor shapeEditor;
     private static MainEditor instance;
+    private Color borderColor = Color.BLACK;
+    private Color fillColor = Color.WHITE;
+    private int borderThickness = 1;
 
     private MainEditor(Frame owner) {
         shapeEditor = new ShapeEditor(this, owner);
@@ -19,6 +22,11 @@ public class MainEditor extends JPanel {
             instance = new MainEditor(owner);
         }
         return instance;
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(2000, 2000);
     }
 
     public void setCurrentShape(Shape shape) {
@@ -78,4 +86,29 @@ public class MainEditor extends JPanel {
     public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
         shapeEditor.loadAndRepaint(editor, myJFileChooser);
     }
+
+    public void setBorderColor(Color color) {
+        this.borderColor = color;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setFillColor(Color color) {
+        this.fillColor = color;
+    }
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public void setBorderThickness(int thickness) {
+        this.borderThickness = thickness;
+    }
+
+    public int getBorderThickness() {
+        return borderThickness;
+    }
+
 }
