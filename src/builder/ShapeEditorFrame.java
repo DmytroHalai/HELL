@@ -18,6 +18,9 @@ public class ShapeEditorFrame extends JFrame {
 
         setTitle("sHapE modeLer tooL");
 
+        ImageIcon appIcon = new ImageIcon("builder/pic/icon.png");
+        setIconImage(appIcon.getImage());
+
         editor.setPreferredSize(new Dimension(2000, 2000));
 
         JScrollPane scrollPane = new JScrollPane(editor);
