@@ -16,7 +16,7 @@ public class RectShape extends Shape{
             g.fillRect(x, y, width, height);
         }
 
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawRect(x, y, width, height);
     }

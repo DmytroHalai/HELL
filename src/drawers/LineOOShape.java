@@ -12,14 +12,14 @@ public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
             g.fillOval(x, y, width, height);
         }
 
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawOval(x, y, width, height);
     }
 
     @Override
     public void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark, boolean isHighlight) {
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawLine(xs1, ys1, xs2, ys2);
     }

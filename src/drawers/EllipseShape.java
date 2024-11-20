@@ -16,7 +16,7 @@ public class EllipseShape extends Shape {
             g.fillOval(x, y, width, height);
         }
 
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawOval(x, y, width, height);
     }

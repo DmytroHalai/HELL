@@ -45,3 +45,5 @@ K
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 K
 src/drawers/RectDrawer.java,4\a\4a3c3197a0e9f12b0701ca3e1cf3da0b716f0e4a
+K
+src/drawers/BrushShape.java,e\5\e5ac2f2fe1a8eeb9514c2edaad6e8f5ad04806bc

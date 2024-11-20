@@ -1,6 +1,7 @@
 package utils;
 
 import builder.MainEditor;
+import drawers.BrushShape;
 import drawers.Shape;
 
 import javax.swing.*;
@@ -42,7 +43,11 @@ public class ShapeEditor {
 
     public void onMouseMove(int x, int y) {
         if (isDragging && currentShape != null) {
-            currentShape.set(currentShape.xs1, currentShape.ys1, x, y);
+            if (currentShape instanceof BrushShape) {
+                currentShape.set(currentShape.getXs1(), currentShape.getYs1(), x, y);
+            } else {
+                currentShape.set(currentShape.getXs1(), currentShape.getYs1(), x, y);
+            }
         }
     }
 
@@ -57,6 +62,9 @@ public class ShapeEditor {
 
     public void setCurrentShape(Shape shape) {
         this.currentShape = shape;
+        if (shape instanceof BrushShape) {
+            shape.set(shape.getXs1(), shape.getYs1(), shape.getXs1(), shape.getYs1());
+        }
     }
 
     public void undoLastShape() {

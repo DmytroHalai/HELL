@@ -11,6 +11,7 @@ public class ShapeFactory {
             case "Line" -> new LineShape();
             case "Point" -> new PointShape();
             case "Cube" -> new CubeShape();
+            case "Brush" -> new BrushShape();
             default -> throw new IllegalArgumentException("Unknown shape type: " + type);
         };
     }

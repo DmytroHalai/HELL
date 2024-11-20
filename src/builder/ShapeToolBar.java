@@ -35,6 +35,7 @@ public class ShapeToolBar {
         addToolBarButton("pic/point.png", e -> setCurrentShape(new PointShape(), e), shapeButtonsPanel);
         addToolBarButton("pic/lineOO.png", e -> setCurrentShape(new LineOOShape(), e), shapeButtonsPanel);
         addToolBarButton("pic/cube.png", e -> setCurrentShape(new CubeShape(), e), shapeButtonsPanel);
+        addToolBarButton("pic/brush.png", e -> setCurrentShape(new BrushShape(), e), shapeButtonsPanel);
 
         panel.add(shapeButtonsPanel);
     }

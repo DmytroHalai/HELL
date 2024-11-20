@@ -7,7 +7,7 @@ public class CubeShape extends Shape implements LineDrawer, RectDrawer {
 
     @Override
     public void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark, boolean isHighlight) {
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawLine(x, y, x2, y2);
     }
@@ -20,7 +20,7 @@ public class CubeShape extends Shape implements LineDrawer, RectDrawer {
             g.fillRect(x, y, width, width);
         }
 
-        g.setColor(isHighlight ? Color.RED : borderColor);
+        g.setColor(isHighlight ? Color.green : borderColor);
         new StrokeSetter(g, thickness, isMark, 10);
         g.drawRect(x, y, width, width);
     }
