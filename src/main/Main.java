@@ -1,3 +1,5 @@
+package main;
+
 import builder.ShapeEditorFrame;
 
 import javax.swing.*;

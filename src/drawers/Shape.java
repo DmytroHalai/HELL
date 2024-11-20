@@ -4,10 +4,12 @@ import java.awt.*;
 
 public abstract class Shape {
     public int xs1;
-
     public int ys1;
     protected int xs2;
     protected int ys2;
+    protected Color borderColor = Color.BLACK;
+    protected Color fillColor = Color.WHITE;
+    protected int thickness = 1;
 
     public void set(int x1, int y1, int x2, int y2) {
         xs1 = x1;
@@ -34,22 +36,29 @@ public abstract class Shape {
         return ys2;
     }
 
-    public void setXs1(int xs1) {
-        this.xs1 = xs1;
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
     }
 
-    public void setYs1(int ys1) {
-        this.ys1 = ys1;
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
     }
 
-    public void setXs2(int xs2) {
-        this.xs2 = xs2;
+    public void setThickness(int thickness) {
+        this.thickness = thickness;
     }
-
-    public void setYs2(int ys2) {
-        this.ys2 = ys2;
-    }
-
 
     public abstract String getType();
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public int getThickness() {
+        return thickness;
+    }
 }

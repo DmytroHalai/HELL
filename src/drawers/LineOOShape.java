@@ -6,15 +6,21 @@ public class LineOOShape extends Shape implements EllipseDrawer, LineDrawer {
 
     @Override
     public void showEl(Graphics2D g, int x, int y, int width, int height, boolean isMark, boolean isHighlight) {
-        g.setColor(isHighlight ? Color.RED : Color.BLACK);
-        new StrokeSetter(g, 3, isMark, 3);
+        if (fillColor != Color.WHITE) {
+            g.setColor(fillColor);
+            new StrokeSetter(g, thickness, isMark, 10);
+            g.fillOval(x, y, width, height);
+        }
+
+        g.setColor(isHighlight ? Color.RED : borderColor);
+        new StrokeSetter(g, thickness, isMark, 10);
         g.drawOval(x, y, width, height);
     }
 
     @Override
     public void showLine(Graphics2D g, int x, int y, int x2, int y2, boolean isMark, boolean isHighlight) {
-        g.setColor(isHighlight ? Color.RED : Color.BLACK);
-        new StrokeSetter(g, 3, isMark, 10);
+        g.setColor(isHighlight ? Color.RED : borderColor);
+        new StrokeSetter(g, thickness, isMark, 10);
         g.drawLine(xs1, ys1, xs2, ys2);
     }
 

@@ -1,5 +1,6 @@
 package builder;
 
+
 import drawers.Shape;
 import utils.ShapeEditor;
 
@@ -38,6 +39,10 @@ public class MainEditor extends JPanel {
     }
 
     public void onLBdown(int x, int y) {
+        shapeEditor.getShape().setBorderColor(borderColor);
+        shapeEditor.getShape().setFillColor(fillColor);
+        shapeEditor.getShape().setThickness(borderThickness);
+        shapeEditor.unHighlightShape();
         shapeEditor.onLBdown(x, y);
     }
 
@@ -104,11 +109,6 @@ public class MainEditor extends JPanel {
     }
 
     public void setBorderThickness(int thickness) {
-        this.borderThickness = thickness;
+            this.borderThickness = thickness;
     }
-
-    public int getBorderThickness() {
-        return borderThickness;
-    }
-
 }

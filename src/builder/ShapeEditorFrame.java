@@ -21,8 +21,8 @@ public class ShapeEditorFrame extends JFrame {
         editor.setPreferredSize(new Dimension(2000, 2000));
 
         JScrollPane scrollPane = new JScrollPane(editor);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(800, 600));

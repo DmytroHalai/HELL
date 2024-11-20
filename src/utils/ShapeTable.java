@@ -10,9 +10,10 @@ import java.io.*;
 import java.util.List;
 
 public class ShapeTable extends JDialog {
-    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2"}, 0);
+    private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0);
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
+
     public ShapeTable(Frame owner, MainEditor editor) {
         super(owner, "Objects list", false);
         setLayout(new BorderLayout());
@@ -79,14 +80,15 @@ public class ShapeTable extends JDialog {
         }
     }
 
-    public void addRow(String name, int x1, int y1, int x2, int y2) {
-        tableModel.addRow(new Object[]{name, x1, y1, x2, y2});
+    public void addRow(String name, int x1, int y1, int x2, int y2, String borderColor, String fillColor, int thickness) {
+        tableModel.addRow(new Object[]{name, x1, y1, x2, y2, borderColor, fillColor, thickness});
     }
 
     public void updateTable(List<Shape> shapes) {
         tableModel.setRowCount(0);
         for (Shape shape : shapes) {
-            addRow(shape.getType(), shape.getXs1(), shape.getYs1(), shape.getXs2(), shape.getYs2());
+            addRow(shape.getType(), shape.getXs1(), shape.getYs1(), shape.getXs2(), shape.getYs2(),
+                    colorToRGB(shape.getBorderColor()), colorToRGB(shape.getFillColor()), shape.getThickness());
         }
     }
 
@@ -157,4 +159,10 @@ public class ShapeTable extends JDialog {
         }
     }
 
+    private String colorToRGB(Color color) {
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        return red + "," + green + "," + blue;
+    }
 }

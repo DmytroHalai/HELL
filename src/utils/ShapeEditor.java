@@ -71,6 +71,10 @@ public class ShapeEditor {
         }
     }
 
+    public void unHighlightShape() {
+        this.highlightedShape = null;
+    }
+
     private void updateTable() {
         shapeTable.updateTable(shapes);
     }
@@ -108,9 +112,15 @@ public class ShapeEditor {
             int y1 = Integer.parseInt((String) row.get(2));
             int x2 = Integer.parseInt((String) row.get(3));
             int y2 = Integer.parseInt((String) row.get(4));
+            Color borderColor = rgbToColor((String) row.get(5));
+            Color fillColor = rgbToColor((String) row.get(6));
+            int thickness = Integer.parseInt((String) row.get(7));
 
             Shape shape = ShapeFactory.createShape(name);
             shape.set(x1, y1, x2, y2);
+            shape.setBorderColor(borderColor);
+            shape.setThickness(thickness);
+            shape.setFillColor(fillColor);
             shapes.add(shape);
         } catch (NumberFormatException e) {
             System.err.println("Error during conversion of coordinates: " + e.getMessage());
@@ -132,5 +142,17 @@ public class ShapeEditor {
 
     public void loadAndRepaint(MainEditor editor, JFileChooser myJFileChooser) {
         shapeTable.loadAndRepaint(editor, myJFileChooser);
+    }
+
+    public Shape getShape(){
+        return currentShape;
+    }
+
+    private Color rgbToColor(String rgb) {
+        String[] parts = rgb.split(",");
+        int red = Integer.parseInt(parts[0].trim());
+        int green = Integer.parseInt(parts[1].trim());
+        int blue = Integer.parseInt(parts[2].trim());
+        return new Color(red, green, blue);
     }
 }

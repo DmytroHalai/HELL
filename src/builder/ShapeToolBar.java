@@ -15,7 +15,7 @@ public class ShapeToolBar {
 
     public ShapeToolBar(MainEditor editor) {
         this.panel = new JPanel();
-        this.panel.setLayout(new GridLayout(2, 1)); // Верхній ряд — кнопки фігур, нижній — налаштування
+        this.panel.setLayout(new GridLayout(2, 1));
         this.editor = editor;
         initShapeButtons();
         initSettingsPanel();
@@ -43,29 +43,26 @@ public class ShapeToolBar {
         JPanel settingsPanel = new JPanel();
         settingsPanel.setLayout(new FlowLayout());
 
-        // Колір контуру
         JButton borderColorButton = new JButton("Border Color");
         borderColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", Color.BLACK);
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Border Color", editor.getBorderColor());
             if (selectedColor != null) {
                 editor.setBorderColor(selectedColor);
             }
         });
         settingsPanel.add(borderColorButton);
 
-        // Колір заливки
         JButton fillColorButton = new JButton("Fill Color");
         fillColorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", Color.WHITE);
+            Color selectedColor = JColorChooser.showDialog(null, "Choose Fill Color", editor.getFillColor());
             if (selectedColor != null) {
                 editor.setFillColor(selectedColor);
             }
         });
         settingsPanel.add(fillColorButton);
 
-        // Товщина контуру
         JLabel thicknessLabel = new JLabel("Thickness:");
-        JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+        JSpinner thicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         thicknessSpinner.addChangeListener(e -> {
             int thickness = (int) thicknessSpinner.getValue();
             editor.setBorderThickness(thickness);
