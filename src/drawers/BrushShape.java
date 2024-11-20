@@ -2,14 +2,17 @@ package drawers;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BrushShape extends Shape{
     private final ArrayList<Point> points = new ArrayList<>();
 
-    @Override
-    public void set(int x1, int y1, int x2, int y2) {
-        super.set(x1, y1, x2, y2);
-        points.add(new Point(x2, y2));
+    public void addPoint(int x, int y) {
+        points.add(new Point(x, y));
+    }
+
+    public List<Point> getPoints() {
+        return points;
     }
 
     @Override
@@ -19,7 +22,6 @@ public class BrushShape extends Shape{
 
         for (int i = 1; i < points.size(); i++) {
             Point p1 = points.get(i - 1);
-            System.out.println(p1.getX() + " / " + p1.getY());
             Point p2 = points.get(i);
             g.drawLine(p1.x, p1.y, p2.x, p2.y);
         }

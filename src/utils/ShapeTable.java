@@ -1,12 +1,14 @@
 package utils;
 
 import builder.MainEditor;
+import drawers.BrushShape;
 import drawers.Shape;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShapeTable extends JDialog {
@@ -39,17 +41,7 @@ public class ShapeTable extends JDialog {
             }
         });
 
-        JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem deleteMenuItem = new JMenuItem("Delete");
-
-        deleteMenuItem.addActionListener(e -> {
-            int row = myJTable.getSelectedRow();
-            if (row >= 0) {
-                deleteRow(row, editor);
-            }
-        });
-
-        popupMenu.add(deleteMenuItem);
+        JPopupMenu popupMenu = getjPopupMenu(editor);
 
         myJTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -75,6 +67,36 @@ public class ShapeTable extends JDialog {
         setLocationRelativeTo(owner);
     }
 
+    private JPopupMenu getjPopupMenu(MainEditor editor) {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem deleteMenuItem = new JMenuItem("Delete");
+
+
+        deleteMenuItem.addActionListener(e -> {
+            int row = myJTable.getSelectedRow();
+            if (row >= 0) {
+                deleteRow(row, editor);
+            }
+        });
+
+        JMenuItem openBrushCoordinatesMenuItem = new JMenuItem("Open Coordinates");
+
+        openBrushCoordinatesMenuItem.addActionListener(e -> {
+            int row = myJTable.getSelectedRow();
+            if (row >= 0) {
+                Shape shape = editor.getCurrentShapeEditor().getShapes().get(row);
+                if (shape instanceof BrushShape) {
+                    showBrushCoordinates((BrushShape) shape);
+                }
+            }
+        });
+
+        popupMenu.add(openBrushCoordinatesMenuItem);
+
+        popupMenu.add(deleteMenuItem);
+        return popupMenu;
+    }
+
     private void deleteRow(int row, MainEditor editor) {
         if (row >= 0 && row < tableModel.getRowCount()) {
             tableModel.removeRow(row);
@@ -87,12 +109,52 @@ public class ShapeTable extends JDialog {
         tableModel.addRow(new Object[]{name, x1, y1, x2, y2, borderColor, fillColor, thickness});
     }
 
+    public void addBrushRow(String name, String x1, String y1, String x2, String y2, String borderColor, String fillColor, int thickness) {
+        tableModel.addRow(new Object[]{name, x1, y1, x2, y2, borderColor, fillColor, thickness});
+    }
+
     public void updateTable(List<Shape> shapes) {
         tableModel.setRowCount(0);
         for (Shape shape : shapes) {
-            addRow(shape.getType(), shape.getXs1(), shape.getYs1(), shape.getXs2(), shape.getYs2(),
-                    colorToRGB(shape.getBorderColor()), colorToRGB(shape.getFillColor()), shape.getThickness());
+            if (shape instanceof BrushShape) {
+                List<Point> points = ((BrushShape) shape).getPoints();
+                String coordinates = pointsToString(points);
+                addBrushRow(shape.getType(), "Array of coords", coordinates, "", "", colorToRGB(shape.getBorderColor()),
+                        colorToRGB(shape.getFillColor()), shape.getThickness());
+            } else {
+                addRow(shape.getType(), shape.getXs1(), shape.getYs1(), shape.getXs2(), shape.getYs2(),
+                        colorToRGB(shape.getBorderColor()), colorToRGB(shape.getFillColor()), shape.getThickness());
+            }
         }
+    }
+
+    private String pointsToString(List<Point> points) {
+        StringBuilder sb = new StringBuilder();
+        for (Point point : points) {
+            sb.append("(").append(point.x).append(",").append(point.y).append(")\t");
+        }
+        return sb.toString().trim();
+    }
+
+    private List<Point> stringToPoints(String pointsString) {
+        List<Point> points = new ArrayList<>();
+
+        String[] pointPairs = pointsString.split("\t");
+        for (String pair : pointPairs) {
+            pair = pair.trim().replaceAll("[()]", "");
+            String[] coordinates = pair.split(",");
+            if (coordinates.length == 2) {
+                try {
+                    int x = Integer.parseInt(coordinates[0].trim());
+                    int y = Integer.parseInt(coordinates[1].trim());
+                    points.add(new Point(x, y));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return points;
     }
 
     public void saveTable(JFileChooser owner) {
@@ -125,6 +187,14 @@ public class ShapeTable extends JDialog {
             writer.newLine();
 
             for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String shapeName = tableModel.getValueAt(i, 0).toString();
+                if(shapeName.equals("Brush")){
+                    writer.write(shapeName);
+                    writer.write("\t");
+                    writer.write(tableModel.getValueAt(i, 2).toString());
+                    writer.newLine();
+                    continue;
+                }
                 for (int j = 0; j < tableModel.getColumnCount(); j++) {
                     writer.write(tableModel.getValueAt(i, j).toString());
                     if (j < tableModel.getColumnCount() - 1) {
@@ -181,5 +251,20 @@ public class ShapeTable extends JDialog {
 
     public void setCurrentFile(File file){
         currentFile = file;
+    }
+
+    private void showBrushCoordinates(BrushShape brush) {
+        JFrame frame = new JFrame("Brush Coordinates");
+        DefaultTableModel model = new DefaultTableModel(new String[]{"X", "Y"}, 0);
+        JTable coordinatesTable = new JTable(model);
+
+        for (Point point : brush.getPoints()) {
+            model.addRow(new Object[]{point.x, point.y});
+        }
+
+        frame.add(new JScrollPane(coordinatesTable));
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
     }
 }

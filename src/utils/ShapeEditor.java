@@ -44,9 +44,9 @@ public class ShapeEditor {
     public void onMouseMove(int x, int y) {
         if (isDragging && currentShape != null) {
             if (currentShape instanceof BrushShape) {
-                currentShape.set(currentShape.getXs1(), currentShape.getYs1(), x, y);
+                ((BrushShape) currentShape).addPoint(x, y);
             } else {
-                currentShape.set(currentShape.getXs1(), currentShape.getYs1(), x, y);
+                currentShape.set(currentShape.xs1, currentShape.ys1, x, y);
             }
         }
     }
