@@ -116,26 +116,68 @@ public class ShapeEditor {
 
     private void createShapeFromRow(Vector row) {
         try {
-            String name = (String) row.get(0);
-            int x1 = Integer.parseInt((String) row.get(1));
-            int y1 = Integer.parseInt((String) row.get(2));
-            int x2 = Integer.parseInt((String) row.get(3));
-            int y2 = Integer.parseInt((String) row.get(4));
-            Color borderColor = rgbToColor((String) row.get(5));
-            Color fillColor = rgbToColor((String) row.get(6));
-            int thickness = Integer.parseInt((String) row.get(7));
-
-            Shape shape = ShapeFactory.createShape(name);
-            shape.set(x1, y1, x2, y2);
-            shape.setBorderColor(borderColor);
-            shape.setThickness(thickness);
-            shape.setFillColor(fillColor);
+            Shape shape;
+            String name = (String) row.getFirst();
+            if (name.equals("Brush")) shape = createBrushShapeFromRow(row);
+            else shape = createStaticShapeFromRow(row, name);
             shapes.add(shape);
         } catch (NumberFormatException e) {
             System.err.println("Error during conversion of coordinates: " + e.getMessage());
         } catch (NullPointerException e) {
             System.err.println("Uncorrected row in a table: " + e.getMessage());
         }
+    }
+
+    public Shape createStaticShapeFromRow(Vector row, String name){
+        int x1 = Integer.parseInt((String) row.get(1));
+        int y1 = Integer.parseInt((String) row.get(2));
+        int x2 = Integer.parseInt((String) row.get(3));
+        int y2 = Integer.parseInt((String) row.get(4));
+        Color borderColor = rgbToColor((String) row.get(5));
+        Color fillColor = rgbToColor((String) row.get(6));
+        int thickness = Integer.parseInt((String) row.get(7));
+
+        Shape shape = ShapeFactory.createShape(name);
+        shape.set(x1, y1, x2, y2);
+        shape.setBorderColor(borderColor);
+        shape.setFillColor(fillColor);
+        shape.setThickness(thickness);
+        return shape;
+    }
+
+    public Shape createBrushShapeFromRow(Vector row) {
+        String points = (String) row.get(2);
+        Color borderColor = rgbToColor((String) row.get(5));
+        Color fillColor = rgbToColor((String) row.get(6));
+        int thickness = Integer.parseInt((String) row.get(7));
+
+        BrushShape shape = new BrushShape();
+        shape.setPoints(stringToPoints(points));
+        shape.setBorderColor(borderColor);
+        shape.setFillColor(fillColor);
+        shape.setThickness(thickness);
+        return shape;
+    }
+
+    private List<Point> stringToPoints(String pointsString) {
+        List<Point> points = new ArrayList<>();
+
+        String[] pointPairs = pointsString.split(" ");
+        for (String pair : pointPairs) {
+            pair = pair.trim().replaceAll("[()]", "");
+            String[] coordinates = pair.split(",");
+            if (coordinates.length == 2) {
+                try {
+                    int x = Integer.parseInt(coordinates[0].trim());
+                    int y = Integer.parseInt(coordinates[1].trim());
+                    points.add(new Point(x, y));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return points;
     }
 
     public void removeShape(int index) {

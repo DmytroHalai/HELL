@@ -4,6 +4,8 @@ import builder.ShapeEditorFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,5 +36,17 @@ public class Main {
                 SwingUtilities.invokeLater(() -> mainFrame.setVisible(true));
             }
         }, 11000);
+
+        introWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                introWindow.setVisible(false);
+                introWindow.dispose();
+
+                timer.cancel();
+
+                SwingUtilities.invokeLater(() -> mainFrame.setVisible(true));
+            }
+        });
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrushShape extends Shape{
-    private final ArrayList<Point> points = new ArrayList<>();
+    private List<Point> points = new ArrayList<>();
 
     public void addPoint(int x, int y) {
         points.add(new Point(x, y));
@@ -13,6 +13,10 @@ public class BrushShape extends Shape{
 
     public List<Point> getPoints() {
         return points;
+    }
+
+    public void setPoints(List<Point> points) {
+        this.points = points;
     }
 
     @Override

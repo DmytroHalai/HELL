@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ShapeTable extends JDialog {
@@ -131,30 +132,9 @@ public class ShapeTable extends JDialog {
     private String pointsToString(List<Point> points) {
         StringBuilder sb = new StringBuilder();
         for (Point point : points) {
-            sb.append("(").append(point.x).append(",").append(point.y).append(")\t");
+            sb.append("(").append(point.x).append(",").append(point.y).append(") ");
         }
         return sb.toString().trim();
-    }
-
-    private List<Point> stringToPoints(String pointsString) {
-        List<Point> points = new ArrayList<>();
-
-        String[] pointPairs = pointsString.split("\t");
-        for (String pair : pointPairs) {
-            pair = pair.trim().replaceAll("[()]", "");
-            String[] coordinates = pair.split(",");
-            if (coordinates.length == 2) {
-                try {
-                    int x = Integer.parseInt(coordinates[0].trim());
-                    int y = Integer.parseInt(coordinates[1].trim());
-                    points.add(new Point(x, y));
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return points;
     }
 
     public void saveTable(JFileChooser owner) {
@@ -187,14 +167,6 @@ public class ShapeTable extends JDialog {
             writer.newLine();
 
             for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String shapeName = tableModel.getValueAt(i, 0).toString();
-                if(shapeName.equals("Brush")){
-                    writer.write(shapeName);
-                    writer.write("\t");
-                    writer.write(tableModel.getValueAt(i, 2).toString());
-                    writer.newLine();
-                    continue;
-                }
                 for (int j = 0; j < tableModel.getColumnCount(); j++) {
                     writer.write(tableModel.getValueAt(i, j).toString());
                     if (j < tableModel.getColumnCount() - 1) {
