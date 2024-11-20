@@ -13,6 +13,7 @@ public class ShapeTable extends JDialog {
     private final DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "x1", "y1", "x2", "y2", "Border Color", "Fill Color", "Thickness"}, 0);
     private final JTable myJTable = new JTable(tableModel);
     private final JFileChooser myJFileChooser = new JFileChooser(new File("."));
+    private File currentFile;
 
     public ShapeTable(Frame owner, MainEditor editor) {
         super(owner, "Objects list", false);
@@ -21,9 +22,11 @@ public class ShapeTable extends JDialog {
         JPanel panel = new JPanel(new java.awt.GridLayout(1, 2));
 
         JButton jbtSave = new JButton("Save");
+        JButton jbtSaveAs = new JButton("Save As");
         JButton jbtLoad = new JButton("Load");
 
         panel.add(jbtSave);
+        panel.add(jbtSaveAs);
         panel.add(jbtLoad);
 
         add(panel, BorderLayout.SOUTH);
@@ -62,7 +65,7 @@ public class ShapeTable extends JDialog {
         });
 
         jbtSave.addActionListener(e -> saveTable(myJFileChooser));
-
+        jbtSaveAs.addActionListener(e -> saveTableAs(myJFileChooser));
         jbtLoad.addActionListener(e -> loadAndRepaint(editor, myJFileChooser));
 
         JScrollPane scrollPane = new JScrollPane(myJTable);
@@ -92,13 +95,21 @@ public class ShapeTable extends JDialog {
         }
     }
 
-
     public void saveTable(JFileChooser owner) {
+        if (currentFile != null) {
+            saveTable(currentFile);
+        } else {
+            saveTableAs(owner);
+        }
+    }
+
+    public void saveTableAs(JFileChooser owner) {
         if (owner.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = owner.getSelectedFile();
             if (!selectedFile.getName().endsWith(".txt")) {
                 selectedFile = new File(selectedFile.getAbsolutePath() + ".txt");
             }
+            currentFile = selectedFile;
             saveTable(selectedFile);
         }
     }
@@ -154,6 +165,8 @@ public class ShapeTable extends JDialog {
                 String[] values = line.split("\t");
                 tableModel.addRow(values);
             }
+
+            currentFile = file;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -164,5 +177,9 @@ public class ShapeTable extends JDialog {
         int green = color.getGreen();
         int blue = color.getBlue();
         return red + "," + green + "," + blue;
+    }
+
+    public void setCurrentFile(File file){
+        currentFile = file;
     }
 }

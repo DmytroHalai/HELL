@@ -6,6 +6,7 @@ import utils.ShapeEditor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class MainEditor extends JPanel {
     private final transient ShapeEditor shapeEditor;
@@ -84,6 +85,10 @@ public class MainEditor extends JPanel {
         shapeEditor.onPaint(g2d);
     }
 
+    public void saveTableAs(JFileChooser owner){
+        shapeEditor.saveTableAs(owner);
+    }
+
     public void saveTable(JFileChooser owner){
         shapeEditor.saveTable(owner);
     }
@@ -110,5 +115,9 @@ public class MainEditor extends JPanel {
 
     public void setBorderThickness(int thickness) {
             this.borderThickness = thickness;
+    }
+
+    public void setCurrentFile(File file){
+        shapeEditor.setCurrentFile(file);
     }
 }

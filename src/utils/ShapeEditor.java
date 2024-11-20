@@ -6,6 +6,7 @@ import drawers.Shape;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -136,6 +137,10 @@ public class ShapeEditor {
         }
     }
 
+    public void saveTableAs(JFileChooser owner) {
+        shapeTable.saveTableAs(owner);
+    }
+
     public void saveTable(JFileChooser owner) {
         shapeTable.saveTable(owner);
     }
@@ -154,5 +159,9 @@ public class ShapeEditor {
         int green = Integer.parseInt(parts[1].trim());
         int blue = Integer.parseInt(parts[2].trim());
         return new Color(red, green, blue);
+    }
+
+    public void setCurrentFile(File file){
+        shapeTable.setCurrentFile(file);
     }
 }

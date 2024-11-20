@@ -51,7 +51,11 @@ public class ShapeEditorFrame extends JFrame {
         showTableItem.addActionListener(e -> editor.showTable());
         shapeMenu.add(showTableItem);
 
-        JMenuItem saveTable = new JMenuItem("Save as");
+        JMenuItem saveTableAs = new JMenuItem("Save as");
+        saveTableAs.addActionListener(e -> editor.saveTableAs(fileChooser));
+        fileMenu.add(saveTableAs);
+
+        JMenuItem saveTable = new JMenuItem("Save");
         saveTable.addActionListener(e -> editor.saveTable(fileChooser));
         fileMenu.add(saveTable);
 
@@ -62,6 +66,7 @@ public class ShapeEditorFrame extends JFrame {
         JMenuItem deleteAllShapes = new JMenuItem("Delete all shapes");
         deleteAllShapes.addActionListener(e -> {
             editor.getCurrentShapeEditor().deleteShapes();
+            editor.setCurrentFile(null);
             editor.repaintShapes();
         });
         shapeMenu.add(deleteAllShapes);
@@ -136,6 +141,14 @@ public class ShapeEditorFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 editor.getCurrentShapeEditor().undoLastShape();
                 editor.repaint();
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "save");
+        actionMap.put("save", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editor.saveTable(fileChooser);
             }
         });
     }
