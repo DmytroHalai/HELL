@@ -39,17 +39,25 @@ public class MainEditor extends JPanel {
         return shapeEditor;
     }
 
-    public void onLBdown(int x, int y) {
-        shapeEditor.getShape().setBorderColor(borderColor);
-        shapeEditor.getShape().setFillColor(fillColor);
-        shapeEditor.getShape().setThickness(borderThickness);
-        shapeEditor.unHighlightShape();
-        shapeEditor.onLBdown(x, y);
+    public void onLBdown(int x, int y) throws Exception {
+        try{
+            shapeEditor.getShape().setBorderColor(borderColor);
+            shapeEditor.getShape().setFillColor(fillColor);
+            shapeEditor.getShape().setThickness(borderThickness);
+            shapeEditor.unHighlightShape();
+            shapeEditor.onLBdown(x, y);
+        }
+        catch (Exception error){
+            throw new Exception("Shape is not selected. Select the shape to start editing!");
+        }
     }
 
     public void onLBup() throws InstantiationException, IllegalAccessException {
-        shapeEditor.onLBup();
-        repaintShapes();
+        try{
+            shapeEditor.onLBup();
+            repaintShapes();
+        }
+        catch (Exception ignored){};
     }
 
     public void onMouseMove(int x, int y) {

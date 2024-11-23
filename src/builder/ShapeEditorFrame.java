@@ -108,7 +108,17 @@ public class ShapeEditorFrame extends JFrame {
         editor.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                editor.onLBdown(e.getX(), e.getY());
+                try {
+                    editor.onLBdown(e.getX(), e.getY());
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(
+                            new JFrame(),
+                            error.getMessage(),
+                            "Помилка",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
             }
 
             @Override
